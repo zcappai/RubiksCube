@@ -34,8 +34,8 @@ class RubiksCube:
         self.cube[Faces.Top] = self.__constructFace("W")
         self.cube[Faces.Bottom] = self.__constructFace("Y")
     
-    # Print a face of the cube
-    def printFace(self, face, face_values):
+    # Private function to print a face of the cube
+    def __printFace(self, face, face_values):
         print(face + ":")
         for row in face_values:
             print(row)
@@ -44,7 +44,7 @@ class RubiksCube:
     # Print all faces of the cube with labels, e.g. Front: ...
     def printCube(self):
         for face, face_values in self.cube.items():
-            self.printFace(face, face_values)
+            self.__printFace(face, face_values)
     
     # Pretty print an exploded view of the cube
     def explodedPrint(self):
@@ -221,8 +221,29 @@ class RubiksCube:
         self.cube[Faces.Left][2] = temp
 
 if __name__ == "__main__":
-    cube = RubiksCube()
+    '''
+    Possible rotations available:
+    - cube.rotateFrontClockwise()
+    - cube.rotateFrontAntiClockwise()
+    - cube.rotateBackClockwise()
+    - cube.rotateBackAntiClockwise()
+    - cube.rotateLeftClockwise()
+    - cube.rotateLeftAntiClockwise()
+    - cube.rotateRightClockwise()
+    - cube.rotateRightAntiClockwise()
+    - cube.rotateTopClockwise()
+    - cube.rotateTopAntiClockwise()
+    - cube.rotateBottomClockwise()
+    - cube.rotateBottomAntiClockwise()
 
+    Possible print functions:
+    # Prints an exploded view of the function
+    - explodedPrint()
+    # Prints each face separately with labels
+    - printCube()
+    '''
+
+    cube = RubiksCube()
     # Modify the BELOW code to change the Rubik's Cube
 
     cube.rotateFrontClockwise()
