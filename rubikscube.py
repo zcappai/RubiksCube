@@ -251,7 +251,7 @@ if __name__ == "__main__":
     '''
 
     cube = RubiksCube()
-    # Modify the BELOW code to change the Rubik's Cube
+    # Modify the BELOW code to change the Rubik's Cube using the "Possible rotations available" above
 
     cube.rotateFrontClockwise()
     cube.rotateRightAntiClockwise()
