@@ -16,13 +16,13 @@ class RubiksCube:
     # Private function to construct a face of the cube with a colour
     def __constructFace(self, colour):
         face = []
-        cell_num = 1 # Tracks cell number
+        cellNum = 1 # Tracks cell number
         for row in range(3):
             # New array for each row of face
             face.insert(row, [])
             for col in range(3):
-                face[row].insert(col, colour + str(cell_num))
-                cell_num += 1
+                face[row].insert(col, colour + str(cellNum))
+                cellNum += 1
         return face
 
     # Private function to construct each face of the cube
@@ -43,8 +43,8 @@ class RubiksCube:
 
     # Print all faces of the cube with labels, e.g. Front: ...
     def printCube(self):
-        for face, face_values in self.cube.items():
-            self.__printFace(face, face_values)
+        for face, faceValues in self.cube.items():
+            self.__printFace(face, faceValues)
     
     # Pretty print an exploded view of the cube
     def explodedPrint(self):
@@ -71,38 +71,38 @@ class RubiksCube:
     # Private function to rotate only the current face clockwise
     # Excludes rotation of adjacent faces
     def __rotateFaceClockwise(self, face):
-        curr_face = self.cube[face]
+        currFace = self.cube[face]
         # 1. Rotate corners cubes
-        temp_cell = curr_face[0][0]
-        curr_face[0][0] = curr_face[2][0]
-        curr_face[2][0] = curr_face[2][2]
-        curr_face[2][2] = curr_face[0][2]
-        curr_face[0][2] = temp_cell
+        tempCell = currFace[0][0]
+        currFace[0][0] = currFace[2][0]
+        currFace[2][0] = currFace[2][2]
+        currFace[2][2] = currFace[0][2]
+        currFace[0][2] = tempCell
 
         # 2. Rotate edge cubes
-        temp_cell = curr_face[0][1]
-        curr_face[0][1] = curr_face[1][0]
-        curr_face[1][0] = curr_face[2][1]
-        curr_face[2][1] = curr_face[1][2]
-        curr_face[1][2] = temp_cell
+        tempCell = currFace[0][1]
+        currFace[0][1] = currFace[1][0]
+        currFace[1][0] = currFace[2][1]
+        currFace[2][1] = currFace[1][2]
+        currFace[1][2] = tempCell
 
     # Private function to rotate only the current face anticlockwise
     # Excludes rotation of adjacent faces
     def __rotateFaceAntiClockwise(self, face):
-        curr_face = self.cube[face]
+        currFace = self.cube[face]
         # 1. Rotate corners cubes
-        temp_cell = curr_face[0][0]
-        curr_face[0][0] = curr_face[0][2]
-        curr_face[0][2] = curr_face[2][2]
-        curr_face[2][2] = curr_face[2][0]
-        curr_face[2][0] = temp_cell
+        tempCell = currFace[0][0]
+        currFace[0][0] = currFace[0][2]
+        currFace[0][2] = currFace[2][2]
+        currFace[2][2] = currFace[2][0]
+        currFace[2][0] = tempCell
 
         # 2. Rotate edge cubes
-        temp_cell = curr_face[0][1]
-        curr_face[0][1] = curr_face[1][2]
-        curr_face[1][2] = curr_face[2][1]
-        curr_face[2][1] = curr_face[1][0]
-        curr_face[1][0] = temp_cell
+        tempCell = currFace[0][1]
+        currFace[0][1] = currFace[1][2]
+        currFace[1][2] = currFace[2][1]
+        currFace[2][1] = currFace[1][0]
+        currFace[1][0] = tempCell
 
 
     # Which faces correspond to which other faces:
@@ -113,112 +113,112 @@ class RubiksCube:
     # Rotating front face and adjacent faces
     def rotateFrontClockwise(self):
         self.__rotateFaceClockwise(Faces.Front)
-        temp_cells = [self.cube[Faces.Top][2][i] for i in range(3)]
+        tempCells = [self.cube[Faces.Top][2][i] for i in range(3)]
         for i in range(3):
             self.cube[Faces.Top][2][i] = self.cube[Faces.Left][2 - i][2]
             self.cube[Faces.Left][2 - i][2] = self.cube[Faces.Bottom][0][2 - i]
             self.cube[Faces.Bottom][0][2 - i] = self.cube[Faces.Right][i][0]
-            self.cube[Faces.Right][i][0] = temp_cells[i]
+            self.cube[Faces.Right][i][0] = tempCells[i]
 
     def rotateFrontAntiClockwise(self):
         self.__rotateFaceAntiClockwise(Faces.Front)
-        temp_cells = [self.cube[Faces.Top][2][i] for i in range(3)]
+        tempCells = [self.cube[Faces.Top][2][i] for i in range(3)]
         for i in range(3):
             self.cube[Faces.Top][2][i] = self.cube[Faces.Right][i][0]
             self.cube[Faces.Right][i][0] = self.cube[Faces.Bottom][0][2 - i]
             self.cube[Faces.Bottom][0][2 - i] = self.cube[Faces.Left][2 - i][2]
-            self.cube[Faces.Left][2 - i][2] = temp_cells[i]
+            self.cube[Faces.Left][2 - i][2] = tempCells[i]
 
     # Rotating back face and adjacent faces
     def rotateBackClockwise(self):
         self.__rotateFaceClockwise(Faces.Back)
-        temp_cells = [self.cube[Faces.Top][0][i] for i in range(3)]
+        tempCells = [self.cube[Faces.Top][0][i] for i in range(3)]
         for i in range(3):
             self.cube[Faces.Top][0][i] = self.cube[Faces.Right][i][2]
             self.cube[Faces.Right][i][2] = self.cube[Faces.Bottom][2][2 - i]
             self.cube[Faces.Bottom][2][2 - i] = self.cube[Faces.Left][2- i][0]
-            self.cube[Faces.Left][2 - i][0] = temp_cells[i]
+            self.cube[Faces.Left][2 - i][0] = tempCells[i]
 
     def rotateBackAntiClockwise(self):
         self.__rotateFaceAntiClockwise(Faces.Back)
-        temp_cells = [self.cube[Faces.Top][0][i] for i in range(3)]
+        tempCells = [self.cube[Faces.Top][0][i] for i in range(3)]
         for i in range(3):
             self.cube[Faces.Top][0][i] = self.cube[Faces.Left][2 - i][0]
             self.cube[Faces.Left][2 - i][0] = self.cube[Faces.Bottom][2][2 - i]
             self.cube[Faces.Bottom][2][2 - i] = self.cube[Faces.Right][i][2]
-            self.cube[Faces.Right][i][2] = temp_cells[i]
+            self.cube[Faces.Right][i][2] = tempCells[i]
 
     # Rotating left face and adjacent faces
     def rotateLeftClockwise(self):
         self.__rotateFaceClockwise(Faces.Left)
-        temp_cells = [self.cube[Faces.Top][i][0] for i in range(3)]
+        tempCells = [self.cube[Faces.Top][i][0] for i in range(3)]
         for i in range(3):
             self.cube[Faces.Top][i][0] = self.cube[Faces.Back][2 - i][2]
             self.cube[Faces.Back][2 - i][2] = self.cube[Faces.Bottom][i][0]
             self.cube[Faces.Bottom][i][0] = self.cube[Faces.Front][i][0]
-            self.cube[Faces.Front][i][0] = temp_cells[i]
+            self.cube[Faces.Front][i][0] = tempCells[i]
     
     def rotateLeftAntiClockwise(self):
         self.__rotateFaceAntiClockwise(Faces.Left)
-        temp_cells = [self.cube[Faces.Top][i][0] for i in range(3)]
+        tempCells = [self.cube[Faces.Top][i][0] for i in range(3)]
         for i in range(3):
             self.cube[Faces.Top][i][0] = self.cube[Faces.Front][i][0]
             self.cube[Faces.Front][i][0] = self.cube[Faces.Bottom][i][0]
             self.cube[Faces.Bottom][i][0] = self.cube[Faces.Back][2 - i][2]
-            self.cube[Faces.Back][2 - i][2] = temp_cells[i]
+            self.cube[Faces.Back][2 - i][2] = tempCells[i]
 
     # Rotating right face and adjacent faces
     def rotateRightClockwise(self):
         self.__rotateFaceClockwise(Faces.Right)
-        temp_cells = [self.cube[Faces.Top][i][2] for i in range(3)]
+        tempCells = [self.cube[Faces.Top][i][2] for i in range(3)]
         for i in range(3):
             self.cube[Faces.Top][i][2] = self.cube[Faces.Front][i][2]
             self.cube[Faces.Front][i][2] = self.cube[Faces.Bottom][i][2]
             self.cube[Faces.Bottom][i][2] = self.cube[Faces.Back][2 - i][0]
-            self.cube[Faces.Back][2 - i][0] = temp_cells[i]
+            self.cube[Faces.Back][2 - i][0] = tempCells[i]
 
     def rotateRightAntiClockwise(self):
         self.__rotateFaceAntiClockwise(Faces.Right)
-        temp_cells = [self.cube[Faces.Top][i][2] for i in range(3)]
+        tempCells = [self.cube[Faces.Top][i][2] for i in range(3)]
         for i in range(3):
             self.cube[Faces.Top][i][2] = self.cube[Faces.Back][2 - i][0]
             self.cube[Faces.Back][2 - i][0] = self.cube[Faces.Bottom][i][2]
             self.cube[Faces.Bottom][i][2] = self.cube[Faces.Front][i][2]
-            self.cube[Faces.Front][i][2] = temp_cells[i]
+            self.cube[Faces.Front][i][2] = tempCells[i]
 
     # Rotating top face and adjacent faces
     def rotateTopClockwise(self):
         self.__rotateFaceClockwise(Faces.Top)
-        temp = self.cube[Faces.Front][0]
+        tempCells = self.cube[Faces.Front][0]
         self.cube[Faces.Front][0] = self.cube[Faces.Right][0]
         self.cube[Faces.Right][0] = self.cube[Faces.Back][0]
         self.cube[Faces.Back][0] = self.cube[Faces.Left][0]
-        self.cube[Faces.Left][0] = temp
+        self.cube[Faces.Left][0] = tempCells
 
     def rotateTopAntiClockwise(self):
         self.__rotateFaceAntiClockwise(Faces.Top)
-        temp = self.cube[Faces.Front][0]
+        tempCells = self.cube[Faces.Front][0]
         self.cube[Faces.Front][0] = self.cube[Faces.Left][0]
         self.cube[Faces.Left][0] = self.cube[Faces.Back][0]
         self.cube[Faces.Back][0] = self.cube[Faces.Right][0]
-        self.cube[Faces.Right][0] = temp
+        self.cube[Faces.Right][0] = tempCells
 
     # Rotating bottom face and adjacent faces
     def rotateBottomClockwise(self):
         self.__rotateFaceClockwise(Faces.Bottom)
-        temp = self.cube[Faces.Front][2]
+        tempCells = self.cube[Faces.Front][2]
         self.cube[Faces.Front][2] = self.cube[Faces.Left][2]
         self.cube[Faces.Left][2] = self.cube[Faces.Back][2]
         self.cube[Faces.Back][2] = self.cube[Faces.Right][2]
-        self.cube[Faces.Right][2] = temp
+        self.cube[Faces.Right][2] = tempCells
 
     def rotateBottomAntiClockwise(self):
         self.__rotateFaceAntiClockwise(Faces.Bottom)
-        temp = self.cube[Faces.Front][2]
+        tempCells = self.cube[Faces.Front][2]
         self.cube[Faces.Front][2] = self.cube[Faces.Right][2]
         self.cube[Faces.Right][2] = self.cube[Faces.Back][2]
         self.cube[Faces.Back][2] = self.cube[Faces.Left][2]
-        self.cube[Faces.Left][2] = temp
+        self.cube[Faces.Left][2] = tempCells
 
 if __name__ == "__main__":
     '''
@@ -241,6 +241,13 @@ if __name__ == "__main__":
     - explodedPrint()
     # Prints each face separately with labels
     - printCube()
+
+    G = Green
+    B = Blue
+    O = Orange
+    R = Red
+    W = White
+    Y = Yellow
     '''
 
     cube = RubiksCube()
